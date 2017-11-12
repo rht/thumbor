@@ -8,6 +8,9 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from builtins import object
+from past.utils import old_div
 import math
 import sys
 
@@ -260,25 +263,25 @@ class Transformer(object):
         target_height = self.target_height or 1
         target_width = self.target_width or 1
 
-        source_ratio = round(float(source_width) / source_height, 2)
-        target_ratio = round(float(target_width) / target_height, 2)
+        source_ratio = round(old_div(float(source_width), source_height), 2)
+        target_ratio = round(old_div(float(target_width), target_height), 2)
 
         if source_ratio == target_ratio:
             return
 
         focal_x, focal_y = self.get_center_of_mass()
 
-        if self.target_width / source_width > self.target_height / source_height:
+        if old_div(self.target_width, source_width) > old_div(self.target_height, source_height):
             crop_width = source_width
             crop_height = int(round(source_width * self.target_height / target_width, 0))
         else:
             crop_width = int(round(math.ceil(self.target_width * source_height / target_height), 0))
             crop_height = source_height
 
-        crop_left = int(round(min(max(focal_x - (crop_width / 2), 0.0), source_width - crop_width)))
+        crop_left = int(round(min(max(focal_x - (old_div(crop_width, 2)), 0.0), source_width - crop_width)))
         crop_right = min(crop_left + crop_width, source_width)
 
-        crop_top = int(round(min(max(focal_y - (crop_height / 2), 0.0), source_height - crop_height)))
+        crop_top = int(round(min(max(focal_y - (old_div(crop_height, 2)), 0.0), source_height - crop_height)))
         crop_bottom = min(crop_top + crop_height, source_height)
 
         self.engine.crop(crop_left, crop_top, crop_right, crop_bottom)
@@ -300,8 +303,8 @@ class Transformer(object):
             total_x += focal_point.x * focal_point.weight
             total_y += focal_point.y * focal_point.weight
 
-        x = total_x / total_weight
-        y = total_y / total_weight
+        x = old_div(total_x, total_weight)
+        y = old_div(total_y, total_weight)
 
         return x, y
 
@@ -357,7 +360,7 @@ class Transformer(object):
                 point.width = 10
             if point.height <= 1:
                 point.height = 10
-            self.engine.draw_rectangle(int(point.x - (point.width / 2)),
-                                       int(point.y - (point.height / 2)),
+            self.engine.draw_rectangle(int(point.x - (old_div(point.width, 2))),
+                                       int(point.y - (old_div(point.height, 2))),
                                        point.width,
                                        point.height)

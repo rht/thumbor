@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from past.utils import old_div
 from os.path import abspath, dirname, join
 
 import cv2
@@ -38,8 +40,8 @@ class Filter(BaseFilter):
         image.setflags(write=1)
 
         for face in faces:
-            face_x = int(face.x - face.width / 2)
-            face_y = int(face.y - face.height / 2)
+            face_x = int(face.x - old_div(face.width, 2))
+            face_y = int(face.y - old_div(face.height, 2))
 
             face_image = image[face_y:face_y + face.height, face_x:face_x + face.width]
 
@@ -58,7 +60,7 @@ class Filter(BaseFilter):
 
                 # Add blue and green channels
                 bg = cv2.add(b, g)
-                mean = bg / 2
+                mean = old_div(bg, 2)
                 # threshold the mask based on red color and combination of blue and green color
                 mask = ((r > RED_THRESHOLD * mean) & (r > 60)).astype(np.uint8) * 255
                 # Some extra region may also get detected , we find the largest region

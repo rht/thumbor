@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com timehome@corp.globo.com
 
+from builtins import str
 import base64
 import hmac
 import hashlib
@@ -18,9 +19,9 @@ from preggy import expect
 from thumbor.url_signers.base64_hmac_sha1 import UrlSigner
 
 try:
-    unicode        # Python 2
+    str        # Python 2
 except NameError:
-    unicode = str  # Python 3
+    str = str  # Python 3
 
 
 class Base64HmacSha1UrlSignerTestCase(TestCase):
@@ -34,7 +35,7 @@ class Base64HmacSha1UrlSignerTestCase(TestCase):
         url = '10x11:12x13/-300x-300/center/middle/smart/some/image.jpg'
         expected = base64.urlsafe_b64encode(
             hmac.new(
-                'something', unicode(url).encode('utf-8'), hashlib.sha1
+                'something', str(url).encode('utf-8'), hashlib.sha1
             ).digest()
         )
         actual = signer.signature(url)

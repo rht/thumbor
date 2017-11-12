@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from past.utils import old_div
 from os.path import join, dirname, abspath, isabs
 
 import cv2
@@ -28,7 +30,7 @@ class CascadeLoaderDetector(BaseDetector):
             self.__class__.cascade = cv2.CascadeClassifier(cascade_file)
 
     def get_min_size_for(self, size):
-        ratio = int(min(size) / 15)
+        ratio = int(old_div(min(size), 15))
         ratio = max(20, ratio)
         return (ratio, ratio)
 

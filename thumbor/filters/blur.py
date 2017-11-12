@@ -7,6 +7,9 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from builtins import range
+from past.utils import old_div
 import math
 
 from thumbor.filters import BaseFilter, filter_method
@@ -33,10 +36,10 @@ class Filter(BaseFilter):
         matrix_size = (radius * 2) + 1
         matrix = []
         two_sigma_squared = float(2 * sigma * sigma)
-        for x in xrange(matrix_size):
+        for x in range(matrix_size):
             adj_x = x - radius
-            exp = math.e ** -(((adj_x * adj_x)) / two_sigma_squared)
-            matrix.append(exp / math.sqrt(two_sigma_squared * math.pi))
+            exp = math.e ** -(old_div(((adj_x * adj_x)), two_sigma_squared))
+            matrix.append(old_div(exp, math.sqrt(two_sigma_squared * math.pi)))
         return tuple(matrix), matrix_size
 
     @filter_method(BaseFilter.PositiveNumber, BaseFilter.DecimalNumber)

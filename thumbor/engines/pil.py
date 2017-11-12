@@ -9,6 +9,8 @@
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
 
+from __future__ import division
+from past.utils import old_div
 import os
 from tempfile import mkstemp
 from subprocess import Popen, PIPE
@@ -248,7 +250,7 @@ class Engine(BaseEngine):
         dispose = []
 
         for im in images:
-            duration.append(float(im.info.get('duration', 80)) / 1000)
+            duration.append(old_div(float(im.info.get('duration', 80)), 1000))
             converted_images.append(im.convert("RGB"))
             xy.append((0, 0))
             dispose.append(1)

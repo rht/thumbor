@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from past.builtins import basestring
+from builtins import object
 import pkgutil
 import pkg_resources
 

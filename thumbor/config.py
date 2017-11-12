@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from past.builtins import basestring
 from os.path import expanduser, join
 import tempfile
 

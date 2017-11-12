@@ -7,6 +7,7 @@
 # Licensed under the MIT license:
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
+from builtins import str
 import datetime
 
 from thumbor.handlers import ImageApiHandler

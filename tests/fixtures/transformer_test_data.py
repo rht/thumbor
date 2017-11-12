@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import object
 from thumbor.point import FocalPoint as fp
 from thumbor.context import Context, RequestParameters
 from thumbor.config import Config

@@ -63,8 +63,15 @@ Usefull links
   * http://www.w3.org/Graphics/GIF/spec-gif89a.txt
 
 """
+from __future__ import division
 # todo: This module should be part of imageio (or at least based on)
 
+from builtins import zip
+from builtins import chr
+from builtins import str
+from builtins import range
+from builtins import object
+from past.utils import old_div
 import os
 
 try:
@@ -131,12 +138,12 @@ def intToBin(i):
     """ Integer to two bytes """
     # devide in two parts (bytes)
     i1 = i % 256
-    i2 = int(i / 256)
+    i2 = int(old_div(i, 256))
     # make string (little endian)
     return chr(i1) + chr(i2)
 
 
-class GifWriter:
+class GifWriter(object):
     """ GifWriter()
 
     Class that contains methods for helping write the animated GIF file.

@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from past.utils import old_div
 import preggy
 
 POSITIONS = [
@@ -110,7 +112,7 @@ def to_be_equal_with_additional_info(topic, expected, **kwargs):
 
 @preggy.assertion
 def to_almost_equal(topic, expected, differ, **kwargs):
-    assert abs(1 - topic / expected) <= (differ / 100.0), \
+    assert abs(1 - old_div(topic, expected)) <= (old_div(differ, 100.0)), \
         "Expected topic({topic}) to be almost equal expected({expected}) differing only in {percent}% with test: {test}".format(
             topic=topic, expected=expected, test=kwargs,
             percent=differ

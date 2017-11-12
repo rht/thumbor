@@ -112,7 +112,7 @@ class PilEngineTestCase(TestCase):
         if hasattr(Image, 'HAMMING'):
             to_test['HAMMING'] = Image.HAMMING
 
-        for setting, expected in to_test.items():
+        for setting, expected in list(to_test.items()):
             cfg = Config(PILLOW_RESAMPLING_FILTER=setting)
             engine = Engine(Context(config=cfg))
             expect(engine.get_resize_filter()).to_equal(expected)

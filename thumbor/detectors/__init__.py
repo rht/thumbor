@@ -9,6 +9,7 @@
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
 
+from builtins import object
 class BaseDetector(object):
 
     def __init__(self, context, index, detectors):

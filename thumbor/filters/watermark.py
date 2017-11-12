@@ -8,6 +8,9 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from builtins import range
+from past.utils import old_div
 from thumbor.ext.filters import _alpha
 from thumbor.filters import BaseFilter, filter_method
 from thumbor.loaders import LoaderResult
@@ -42,7 +45,7 @@ class Filter(BaseFilter):
         if not wm_max_height:
             wm_max_height = watermark_sz[1] * wm_max_width / watermark_sz[0]
 
-        if float(watermark_sz[0]) / wm_max_width >= float(watermark_sz[1]) / wm_max_height:
+        if old_div(float(watermark_sz[0]), wm_max_width) >= old_div(float(watermark_sz[1]), wm_max_height):
             wm_height = round(watermark_sz[1] * wm_max_width / watermark_sz[0])
             wm_width = round(wm_max_width)
         else:
@@ -86,7 +89,7 @@ class Filter(BaseFilter):
         if not mos_x:
             repeat_x = (1, 0)
             if center_x:
-                x = (sz[0] - watermark_sz[0]) / 2
+                x = old_div((sz[0] - watermark_sz[0]), 2)
             elif inv_x:
                 x = (sz[0] - watermark_sz[0]) + x
         else:
@@ -97,7 +100,7 @@ class Filter(BaseFilter):
         if not mos_y:
             repeat_y = (1, 0)
             if center_y:
-                y = (sz[1] - watermark_sz[1]) / 2
+                y = old_div((sz[1] - watermark_sz[1]), 2)
             elif inv_y:
                 y = (sz[1] - watermark_sz[1]) + y
         else:
@@ -114,20 +117,20 @@ class Filter(BaseFilter):
                 tmpRepeatY = min(6, repeat_y[0])
                 repeat_x = (tmpRepeatX, sz[0] - tmpRepeatX * watermark_sz[0])
                 repeat_y = (tmpRepeatY, sz[1] - tmpRepeatY * watermark_sz[1])
-            space_x = repeat_x[1] / (max(repeat_x[0], 2) - 1)
-            space_y = repeat_y[1] / (max(repeat_y[0], 2) - 1)
+            space_x = old_div(repeat_x[1], (max(repeat_x[0], 2) - 1))
+            space_y = old_div(repeat_y[1], (max(repeat_y[0], 2) - 1))
             for i in range(int(repeat_x[0])):
                 x = i * space_x + i * watermark_sz[0]
                 for j in range(int(repeat_y[0])):
                     y = j * space_y + j * watermark_sz[1]
                     self.engine.paste(self.watermark_engine, (x, y), merge=True)
         elif mos_x:
-            space_x = repeat_x[1] / (max(repeat_x[0], 2) - 1)
+            space_x = old_div(repeat_x[1], (max(repeat_x[0], 2) - 1))
             for i in range(int(repeat_x[0])):
                 x = i * space_x + i * watermark_sz[0]
                 self.engine.paste(self.watermark_engine, (x, y), merge=True)
         else:
-            space_y = repeat_y[1] / (max(repeat_y[0], 2) - 1)
+            space_y = old_div(repeat_y[1], (max(repeat_y[0], 2) - 1))
             for j in range(int(repeat_y[0])):
                 y = j * space_y + j * watermark_sz[1]
                 self.engine.paste(self.watermark_engine, (x, y), merge=True)
@@ -167,8 +170,8 @@ class Filter(BaseFilter):
         self.x = x
         self.y = y
         self.alpha = alpha
-        self.w_ratio = float(w_ratio) / 100.0 if w_ratio and w_ratio != 'none' else False
-        self.h_ratio = float(h_ratio) / 100.0 if h_ratio and h_ratio != 'none' else False
+        self.w_ratio = old_div(float(w_ratio), 100.0) if w_ratio and w_ratio != 'none' else False
+        self.h_ratio = old_div(float(h_ratio), 100.0) if h_ratio and h_ratio != 'none' else False
         self.callback = callback
         self.watermark_engine = self.context.modules.engine.__class__(self.context)
         self.storage = self.context.modules.storage

@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import print_function
+from builtins import object
 from os.path import abspath, exists
 import tornado
 from concurrent.futures import ThreadPoolExecutor, Future
@@ -18,12 +20,12 @@ from thumbor.metrics.logger_metrics import Metrics
 from thumbor.utils import logger
 
 try:
-    unicode
+    str
 except NameError:
-    unicode = str
+    str = str
 
 
-class Context:
+class Context(object):
     '''
     Class responsible for containing:
     * Server Configuration Parameters (port, ip, key, etc);
@@ -91,7 +93,7 @@ class ServerParameters(object):
 
     @security_key.setter
     def security_key(self, key):
-        if isinstance(key, unicode):
+        if isinstance(key, str):
             key = key.encode('utf-8')
         self._security_key = key
 
@@ -109,7 +111,7 @@ class ServerParameters(object):
         self.security_key = security_key
 
 
-class RequestParameters:
+class RequestParameters(object):
 
     def __init__(self,
                  debug=False,
@@ -209,7 +211,7 @@ class RequestParameters:
         return 0 if value is None else int(value)
 
 
-class ContextImporter:
+class ContextImporter(object):
     def __init__(self, context, importer):
         self.context = context
         self.importer = importer

@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import object
 import piexif
 from xml.etree.ElementTree import ParseError
 
@@ -55,7 +56,7 @@ class EngineResult(object):
         self.metadata = metadata
 
 
-class MultipleEngine:
+class MultipleEngine(object):
 
     def __init__(self, source_engine):
         self.frame_engines = []

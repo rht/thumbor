@@ -8,15 +8,16 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com timehome@corp.globo.com
 
+from builtins import object
 try:
-    unicode        # Python 2
+    str        # Python 2
 except NameError:
-    unicode = str  # Python 3
+    str = str  # Python 3
 
 
 class BaseUrlSigner(object):
     def __init__(self, security_key):
-        if isinstance(security_key, unicode):
+        if isinstance(security_key, str):
             security_key = security_key.encode('utf-8')
         self.security_key = security_key
 

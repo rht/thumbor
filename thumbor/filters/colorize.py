@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import map
 from thumbor.filters import BaseFilter, filter_method
 from thumbor.ext.filters import _colorize
 

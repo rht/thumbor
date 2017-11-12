@@ -8,6 +8,10 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from builtins import str
+from builtins import object
+from past.utils import old_div
 import datetime
 import re
 from functools import partial
@@ -89,7 +93,7 @@ def return_contents(response, url, callback, context, req_start=None):
         if response.time_info:
             for x in response.time_info:
                 context.metrics.timing('original_image.time_info.' + x, response.time_info[x] * 1000)
-            context.metrics.timing('original_image.time_info.bytes_per_second', len(response.body) / response.time_info['total'])
+            context.metrics.timing('original_image.time_info.bytes_per_second', old_div(len(response.body), response.time_info['total']))
         result.buffer = response.body
         context.metrics.incr('original_image.response_bytes', len(response.body))
 
@@ -161,7 +165,7 @@ def _get_prepare_curl_callback(config):
     if config.HTTP_LOADER_CURL_LOW_SPEED_TIME == 0 or config.HTTP_LOADER_CURL_LOW_SPEED_LIMIT == 0:
         return None
 
-    class CurlOpts:
+    class CurlOpts(object):
         def __init__(self, config):
             self.config = config
 

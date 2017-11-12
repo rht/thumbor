@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import str
+from builtins import object
 import base64
 import hashlib
 
@@ -19,9 +21,9 @@ from thumbor.url_signers.base64_hmac_sha1 import UrlSigner as Signer  # NOQA
 from thumbor.url import Url
 
 try:
-    unicode        # Python 2
+    str        # Python 2
 except NameError:
-    unicode = str  # Python 3
+    str = str  # Python 3
 
 
 class Cryptor(object):
@@ -85,7 +87,7 @@ class Cryptor(object):
         try:
             opt = decryptor.decrypt(encrypted_url_part)
             if opt is not None:
-                unicode(opt['image_hash'])
+                str(opt['image_hash'])
         except (UnicodeDecodeError, ValueError):
             opt = None
 

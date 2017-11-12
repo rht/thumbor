@@ -9,6 +9,9 @@
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
 
+from __future__ import division
+from builtins import object
+from past.utils import old_div
 class FocalPoint(object):
     ALIGNMENT_PERCENTAGES = {
         'left': 0.0,
@@ -50,8 +53,8 @@ class FocalPoint(object):
 
     @classmethod
     def from_square(cls, x, y, width, height, origin='detection'):
-        center_x = x + (width / 2)
-        center_y = y + (height / 2)
+        center_x = x + (old_div(width, 2))
+        center_y = y + (old_div(height, 2))
         return cls(center_x, center_y, height=height, width=width, weight=width * height, origin=origin)
 
     @classmethod

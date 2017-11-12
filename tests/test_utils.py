@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import str
 from mock import Mock, patch
 from unittest import TestCase
 import logging

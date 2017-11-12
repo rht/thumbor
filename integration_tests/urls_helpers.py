@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+from builtins import object
 import logging
 from os.path import join
 from itertools import product

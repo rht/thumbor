@@ -8,6 +8,9 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import str
+from past.builtins import basestring
+from builtins import object
 import sys
 import functools
 import datetime

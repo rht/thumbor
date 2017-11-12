@@ -9,6 +9,7 @@
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
 from __future__ import print_function
+from builtins import str
 import random
 import unicodedata
 from io import BytesIO
@@ -33,9 +34,9 @@ from thumbor.engines.pil import Engine as PilEngine
 from tornado.testing import AsyncHTTPTestCase
 
 try:
-    unicode        # Python 2
+    str        # Python 2
 except NameError:
-    unicode = str  # Python 3
+    str = str  # Python 3
 
 
 @create_assertions
@@ -46,7 +47,7 @@ def to_exist(topic):
 def normalize_unicode_path(path):
     normalized_path = path
     for format in ['NFD', 'NFC', 'NFKD', 'NFKC']:
-        normalized_path = unicodedata.normalize(format, unicode(path))
+        normalized_path = unicodedata.normalize(format, str(path))
         if exists(normalized_path):
             break
     return normalized_path
@@ -126,7 +127,7 @@ def encode_multipart_formdata(fields, files):
     BOUNDARY = 'thumborUploadFormBoundary'
     CRLF = '\r\n'
     L = []
-    for key, value in fields.items():
+    for key, value in list(fields.items()):
         L.append('--' + BOUNDARY)
         L.append('Content-Disposition: form-data; name="%s"' % key)
         L.append('')

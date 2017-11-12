@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import zip
+from builtins import object
 import re
 import collections
 
@@ -37,7 +39,7 @@ def filter_method(*args, **kwargs):
     return _filter_deco
 
 
-class FiltersFactory:
+class FiltersFactory(object):
 
     def __init__(self, filter_classes):
         self.filter_classes_map = {}
@@ -71,7 +73,7 @@ class FiltersFactory:
         return FiltersRunner(filter_instances)
 
 
-class FiltersRunner:
+class FiltersRunner(object):
     def __init__(self, filter_instances):
         self.filter_instances = filter_instances
 

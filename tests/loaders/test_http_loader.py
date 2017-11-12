@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import object
 import time
 from os.path import abspath, join, dirname
 from preggy import expect
@@ -47,7 +48,7 @@ class EchoUserAgentHandler(tornado.web.RequestHandler):
 
 class EchoAllHeadersHandler(tornado.web.RequestHandler):
     def get(self):
-        for header, value in sorted(self.request.headers.iteritems()):
+        for header, value in sorted(self.request.headers.items()):
             self.write("%s:%s\n" % (header, value))
 
 
@@ -61,7 +62,7 @@ class RequestMock(object):
         self.headers = headers
 
 
-class ResponseMock:
+class ResponseMock(object):
     def __init__(self, error=None, content_type=None, body=None, code=None):
         self.error = error
         self.code = code

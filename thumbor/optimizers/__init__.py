@@ -9,6 +9,7 @@
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
 
+from builtins import object
 import os
 from tempfile import NamedTemporaryFile
 

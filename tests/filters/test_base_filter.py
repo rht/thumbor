@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import object
 import mock
 
 from preggy import expect
@@ -149,7 +150,7 @@ class BaseFilterTestCase(PythonTestCase):
         return None
 
     def get_context(self):
-        class Any:
+        class Any(object):
             pass
 
         def is_multiple():

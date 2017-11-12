@@ -8,6 +8,8 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from __future__ import division
+from past.utils import old_div
 from thumbor.filters import BaseFilter, filter_method
 from thumbor.ext.filters import _fill
 
@@ -38,8 +40,8 @@ class Filter(BaseFilter):
 
         ix, iy = self.engine.size
 
-        px = (bx - ix) / 2  # top left
-        py = (by - iy) / 2
+        px = old_div((bx - ix), 2)  # top left
+        py = old_div((by - iy), 2)
 
         self.fill_engine.paste(self.engine, (px, py), merge=fill_transparent)
         self.engine.image = self.fill_engine.image

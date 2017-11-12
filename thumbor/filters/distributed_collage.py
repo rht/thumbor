@@ -5,6 +5,9 @@
 # TODO: separator line between images
 # TODO: custom alignment
 
+from __future__ import division
+from builtins import object
+from past.utils import old_div
 import math
 from os.path import abspath, dirname, isabs, join
 
@@ -22,7 +25,7 @@ def calc_new_size_by_height(width, height, bound):
     return int(round(new_width)), bound
 
 
-class StandaloneFaceDetector:
+class StandaloneFaceDetector(object):
     cascade = None
     HAIR_OFFSET = 0.12
 
@@ -44,7 +47,7 @@ class StandaloneFaceDetector:
 
     @classmethod
     def get_min_size_for(cls, size):
-        ratio = int(min(size) / 15)
+        ratio = int(old_div(min(size), 15))
         ratio = max(20, ratio)
         return (ratio, ratio)
 
@@ -70,8 +73,8 @@ class StandaloneFaceDetector:
             total_x += focal_point.x * focal_point.weight
             total_y += focal_point.y * focal_point.weight
 
-        x = total_x / total_weight
-        y = total_y / total_weight
+        x = old_div(total_x, total_weight)
+        y = old_div(total_y, total_weight)
 
         return x, y
 
@@ -79,24 +82,24 @@ class StandaloneFaceDetector:
     def auto_crop(cls, engine, focal_points, target_width=1, target_height=1):
         source_width, source_height = engine.size
 
-        source_ratio = round(float(source_width) / source_height, 2)
-        target_ratio = round(float(target_width) / target_height, 2)
+        source_ratio = round(old_div(float(source_width), source_height), 2)
+        target_ratio = round(old_div(float(target_width), target_height), 2)
 
         if source_ratio == target_ratio:
             return
 
         focal_x, focal_y = cls.get_center_of_mass(focal_points)
-        if target_width / source_width > target_height / source_height:
+        if old_div(target_width, source_width) > old_div(target_height, source_height):
             crop_width = source_width
             crop_height = int(round(source_width * target_height / target_width, 0))
         else:
             crop_width = int(round(math.ceil(target_width * source_height / target_height), 0))
             crop_height = source_height
 
-        crop_left = int(round(min(max(focal_x - (crop_width / 2), 0.0), source_width - crop_width)))
+        crop_left = int(round(min(max(focal_x - (old_div(crop_width, 2)), 0.0), source_width - crop_width)))
         crop_right = min(crop_left + crop_width, source_width)
 
-        crop_top = int(round(min(max(focal_y - (crop_height / 2), 0.0), source_height - crop_height)))
+        crop_top = int(round(min(max(focal_y - (old_div(crop_height, 2)), 0.0), source_height - crop_height)))
         crop_bottom = min(crop_top + crop_height, source_height)
 
         engine.crop(crop_left, crop_top, crop_right, crop_bottom)
@@ -116,7 +119,7 @@ class StandaloneFaceDetector:
         return focal_points
 
 
-class Picture:
+class Picture(object):
     def __init__(self, url, thumbor_filter):
         self.url = url
         self.thumbor_filter = thumbor_filter
@@ -178,7 +181,7 @@ class Picture:
             focal_points = StandaloneFaceDetector.features_to_focal_points(
                 StandaloneFaceDetector.get_features(self.thumbor_filter.context, self.engine))
             if focal_points:
-                self.resize_focal_points(focal_points, float(new_width) / width)
+                self.resize_focal_points(focal_points, old_div(float(new_width), width))
             else:
                 focal_points.append(FocalPoint.from_alignment('center', 'top', new_width, new_height))
             self.engine.resize(new_width, new_height)
@@ -254,7 +257,7 @@ class Filter(BaseFilter):
         division should be like 33px + 33px + 34px = 100px. In this case,
         slice_size is 33px and major_slice_size is 34px.
         '''
-        slice_size = size / float(parts)
+        slice_size = old_div(size, float(parts))
         major_slice_size = math.ceil(slice_size)
         slice_size = math.floor(slice_size)
         return int(slice_size), int(major_slice_size)

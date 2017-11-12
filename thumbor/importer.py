@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright (c) 2011 globo.com thumbor@googlegroups.com
 
+from builtins import object
 from thumbor.utils import logger
 from functools import reduce
 
@@ -23,7 +24,7 @@ def import_class(name, get_module=False):
     return get_module and module or getattr(module, klass)
 
 
-class Importer:
+class Importer(object):
     def __init__(self, config):
         self.config = config
         self.engine = None
